@@ -22,18 +22,23 @@ class Song:
         else:
             self.animals_for_song = animals_for_song
 
+    def first_verse_of_song(self,animal):
+        firs_verse_song = ""
+        firs_verse_song += self.first_verse_of_the_song.format(animal)
+        firs_verse_song += "\n" + self.last_verse.format(animal)
+        return firs_verse_song
+
     def adapt_original_lyrics(self):
-        if len(self.animals_for_song) == 1:
+        amount_of_animals = len(self.animals_for_song)
+        if amount_of_animals == 1:
             final_verse_of_the_song = self.final_verse_of_the_song.format(self.animals_for_song[0])
             return final_verse_of_the_song
         else:
-            amount_of_animals = len(self.animals_for_song)
             final_song = ""
             funny_verse_position = 0
             for position, animal in enumerate(self.animals_for_song):
                 if position == 0:
-                    final_song += self.first_verse_of_the_song.format(animal)
-                    final_song += "\n" + self.last_verse.format(animal)
+                  final_song = self.first_verse_of_song(animal)
                 elif position == amount_of_animals - 1:
                     final_song += "\n\n" + self.final_verse_of_the_song.format(animal)
                 else:
