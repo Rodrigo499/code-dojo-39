@@ -28,46 +28,51 @@ class Song:
         firs_verse_song += "\n" + self.last_verse.format(animal)
         return firs_verse_song
 
+
+    def song_with_more_one_animal(self, amount_of_animals):
+        final_song = ""
+        funny_verse_position = 0
+        for position, animal in enumerate(self.animals_for_song):
+            if position == 0:
+                final_song = self.first_verse_of_song(animal)
+            elif position == amount_of_animals - 1:
+                final_song += "\n\n" + self.final_verse_of_the_song.format(animal)
+            else:
+                final_song += "\n\n" + self.first_verse.format(animal)
+                if funny_verse_position == 0:
+                    final_song += "\n" + self.funny_verses[funny_verse_position]
+                else:
+                    final_song += "\n" + self.funny_verses[funny_verse_position].format(animal)
+                if position > 1:
+                    amount_of_animals_for_use_in_middle_verse = position
+                    while amount_of_animals_for_use_in_middle_verse > 0:
+                        first_animal_in_verse = self.animals_for_song[amount_of_animals_for_use_in_middle_verse]
+                        second_animal_in_verse = self.animals_for_song[
+                            amount_of_animals_for_use_in_middle_verse - 1]
+                        if amount_of_animals_for_use_in_middle_verse > 1:
+                            final_song += "\n" + self.first_middle_verse.format(first_animal_in_verse,
+                                                                                second_animal_in_verse)
+                        else:
+                            final_song += "\n" + self.middle_verse.format(first_animal_in_verse,
+                                                                          second_animal_in_verse)
+                        amount_of_animals_for_use_in_middle_verse -= 1
+                else:
+                    final_song += "\n" + self.middle_verse.format(animal, self.animals_for_song[position - 1])
+                final_song += "\n" + self.last_verse.format(self.animals_for_song[0])
+                if funny_verse_position == len(self.funny_verses) - 1:
+                    funny_verse_position = 0
+                else:
+                    funny_verse_position += 1
+
+        return final_song
+
     def adapt_original_lyrics(self):
         amount_of_animals = len(self.animals_for_song)
         if amount_of_animals == 1:
             final_verse_of_the_song = self.final_verse_of_the_song.format(self.animals_for_song[0])
             return final_verse_of_the_song
         else:
-            final_song = ""
-            funny_verse_position = 0
-            for position, animal in enumerate(self.animals_for_song):
-                if position == 0:
-                  final_song = self.first_verse_of_song(animal)
-                elif position == amount_of_animals - 1:
-                    final_song += "\n\n" + self.final_verse_of_the_song.format(animal)
-                else:
-                    final_song += "\n\n" + self.first_verse.format(animal)
-                    if funny_verse_position == 0:
-                        final_song += "\n" + self.funny_verses[funny_verse_position]
-                    else:
-                        final_song += "\n" + self.funny_verses[funny_verse_position].format(animal)
-                    if position > 1:
-                        amount_of_animals_for_use_in_middle_verse = position
-                        while amount_of_animals_for_use_in_middle_verse > 0:
-                            first_animal_in_verse = self.animals_for_song[amount_of_animals_for_use_in_middle_verse]
-                            second_animal_in_verse = self.animals_for_song[
-                                amount_of_animals_for_use_in_middle_verse - 1]
-                            if amount_of_animals_for_use_in_middle_verse > 1:
-                                final_song += "\n" + self.first_middle_verse.format(first_animal_in_verse,
-                                                                                    second_animal_in_verse)
-                            else:
-                                final_song += "\n" + self.middle_verse.format(first_animal_in_verse,
-                                                                              second_animal_in_verse)
-                            amount_of_animals_for_use_in_middle_verse -= 1
-                    else:
-                        final_song += "\n" + self.middle_verse.format(animal, self.animals_for_song[position - 1])
-                    final_song += "\n" + self.last_verse.format(self.animals_for_song[0])
-                    if funny_verse_position == len(self.funny_verses) - 1:
-                        funny_verse_position = 0
-                    else:
-                        funny_verse_position += 1
-            return final_song
+            return self.song_with_more_one_animal(amount_of_animals)
 
 
 class Singer:
