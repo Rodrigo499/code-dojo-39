@@ -38,21 +38,29 @@ class Song:
             elif position == amount_of_animals - 1:
                 final_song += "\n\n" + self.final_verse_of_the_song.format(animal)
             else:
-                final_song += "\n\n" + self.first_verse.format(animal)
-                if funny_verse_position == 0:
-                    final_song += "\n" + self.funny_verses[funny_verse_position]
-                else:
-                    final_song += "\n" + self.funny_verses[funny_verse_position].format(animal)
-                if position > 1:
-                    final_song = self.song_with_middle_verse(final_song,position)
-                else:
-                    final_song += "\n" + self.middle_verse.format(animal, self.animals_for_song[position - 1])
-                final_song += "\n" + self.last_verse.format(self.animals_for_song[0])
-                if funny_verse_position == len(self.funny_verses) - 1:
-                    funny_verse_position = 0
-                else:
-                    funny_verse_position += 1
+                final_song = self.position_of_funny_verses(final_song,funny_verse_position,position,animal)
+                funny_verse_position = self.define_funny_verse_position(funny_verse_position)
 
+        return final_song
+
+    def define_funny_verse_position(self,funny_verse_position):
+        if funny_verse_position == len(self.funny_verses) - 1:
+            funny_verse_position = 0
+        else:
+            funny_verse_position += 1
+        return funny_verse_position
+
+    def position_of_funny_verses(self, final_song, funny_verse_position, position, animal):
+        final_song += "\n\n" + self.first_verse.format(animal)
+        if funny_verse_position == 0:
+            final_song += "\n" + self.funny_verses[funny_verse_position]
+        else:
+            final_song += "\n" + self.funny_verses[funny_verse_position].format(animal)
+        if position > 1:
+            final_song = self.song_with_middle_verse(final_song, position)
+        else:
+            final_song += "\n" + self.middle_verse.format(animal, self.animals_for_song[position - 1])
+        final_song += "\n" + self.last_verse.format(self.animals_for_song[0])
         return final_song
 
     def song_with_middle_verse(self,final_song, position):
