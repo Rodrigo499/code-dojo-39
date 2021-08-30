@@ -44,18 +44,7 @@ class Song:
                 else:
                     final_song += "\n" + self.funny_verses[funny_verse_position].format(animal)
                 if position > 1:
-                    amount_of_animals_for_use_in_middle_verse = position
-                    while amount_of_animals_for_use_in_middle_verse > 0:
-                        first_animal_in_verse = self.animals_for_song[amount_of_animals_for_use_in_middle_verse]
-                        second_animal_in_verse = self.animals_for_song[
-                            amount_of_animals_for_use_in_middle_verse - 1]
-                        if amount_of_animals_for_use_in_middle_verse > 1:
-                            final_song += "\n" + self.first_middle_verse.format(first_animal_in_verse,
-                                                                                second_animal_in_verse)
-                        else:
-                            final_song += "\n" + self.middle_verse.format(first_animal_in_verse,
-                                                                          second_animal_in_verse)
-                        amount_of_animals_for_use_in_middle_verse -= 1
+                    final_song = self.song_with_middle_verse(final_song,position)
                 else:
                     final_song += "\n" + self.middle_verse.format(animal, self.animals_for_song[position - 1])
                 final_song += "\n" + self.last_verse.format(self.animals_for_song[0])
@@ -65,6 +54,24 @@ class Song:
                     funny_verse_position += 1
 
         return final_song
+
+    def song_with_middle_verse(self,final_song, position):
+        final_song_in_method = final_song
+        amount_of_animals_for_use_in_middle_verse = position
+        while amount_of_animals_for_use_in_middle_verse > 0:
+            first_animal_in_verse = self.animals_for_song[amount_of_animals_for_use_in_middle_verse]
+            second_animal_in_verse = self.animals_for_song[
+                amount_of_animals_for_use_in_middle_verse - 1]
+            if amount_of_animals_for_use_in_middle_verse > 1:
+                final_song_in_method += "\n" + self.first_middle_verse.format(first_animal_in_verse,
+                                                                    second_animal_in_verse)
+
+            else:
+                final_song_in_method += "\n" + self.middle_verse.format(first_animal_in_verse,
+                                                              second_animal_in_verse)
+
+            amount_of_animals_for_use_in_middle_verse -= 1
+        return final_song_in_method
 
     def adapt_original_lyrics(self):
         amount_of_animals = len(self.animals_for_song)
