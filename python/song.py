@@ -81,11 +81,13 @@ class Song:
             amount_of_animals_for_use_in_middle_verse -= 1
         return final_song_in_method
 
+    def song_with_one_animal(self):
+        return self.final_verse_of_the_song.format(self.animals_for_song[0])
+
     def adapt_original_lyrics(self):
         amount_of_animals = len(self.animals_for_song)
         if amount_of_animals == 1:
-            final_verse_of_the_song = self.final_verse_of_the_song.format(self.animals_for_song[0])
-            return final_verse_of_the_song
+            return self.song_with_one_animal()
         else:
             return self.song_with_more_one_animal(amount_of_animals)
 
